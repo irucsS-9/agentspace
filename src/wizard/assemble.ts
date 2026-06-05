@@ -1,4 +1,5 @@
 import { shapeHasDependencyOrder } from "../shape";
+import { DEFAULT_ENFORCEMENT } from "../types";
 import type { Pillar, WorkspaceConfig, WorkspaceShape } from "../types";
 
 export interface WizardAnswers {
@@ -7,11 +8,13 @@ export interface WizardAnswers {
   repos: { name: string; remote: string; stack: string; role: string }[];
   dependencyOrder: string[];
   enableWiki: boolean;
+  enableEnforcement: boolean;
 }
 
 export function assembleConfig(answers: WizardAnswers): WorkspaceConfig {
   const pillars: Pillar[] = ["manifest"];
   if (answers.enableWiki) pillars.push("wiki");
+  if (answers.enableEnforcement) pillars.push("enforcement");
 
   return {
     workspaceName: answers.workspaceName.trim(),
@@ -26,6 +29,6 @@ export function assembleConfig(answers: WizardAnswers): WorkspaceConfig {
       ? answers.dependencyOrder
       : null,
     pillars,
-    enforcement: null,
+    enforcement: answers.enableEnforcement ? { ...DEFAULT_ENFORCEMENT } : null,
   };
 }

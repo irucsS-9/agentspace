@@ -93,6 +93,12 @@ export async function runWizard(): Promise<WorkspaceConfig> {
   const enableWiki = await p.confirm({ message: "Include the memory-bank wiki?", initialValue: true });
   cancel(enableWiki as unknown as string);
 
+  const enableEnforcement = await p.confirm({
+    message: "Include the Claude Code enforcement pack (agents, Stop hook, commands)?",
+    initialValue: false,
+  });
+  cancel(enableEnforcement as unknown as string);
+
   p.outro("Generating workspace…");
   return assembleConfig({
     workspaceName,
@@ -100,5 +106,6 @@ export async function runWizard(): Promise<WorkspaceConfig> {
     repos,
     dependencyOrder,
     enableWiki: enableWiki === true,
+    enableEnforcement: enableEnforcement === true,
   });
 }
