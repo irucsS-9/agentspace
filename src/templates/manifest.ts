@@ -6,7 +6,11 @@ repos:
     remote: {{remote}}
     stack: {{stack}}
     role: {{role}}
-{{/repos}}`;
+{{/repos}}{{#enforcement}}enforcement:
+  mode: {{enforcement.mode}}
+  warmPages: {{enforcement.warmPages}}
+  warmSessions: {{enforcement.warmSessions}}
+{{/enforcement}}`;
 
 // Repo list inlined as a bash array — no runtime YAML parsing (robust).
 export const CLONE_REPOS_SH = `#!/usr/bin/env bash
@@ -37,7 +41,8 @@ done
 
 export const GITIGNORE = `# Sub-repos are independent git repositories, not tracked here.
 {{#repos}}{{name}}/
-{{/repos}}# Machine-local Claude Code settings.
+{{/repos}}{{#enforcement}}.agentspace/state.json
+{{/enforcement}}# Machine-local Claude Code settings.
 **/.claude/settings.local.json
 .DS_Store
 `;
@@ -54,7 +59,14 @@ Work inside the relevant sub-repo; read that repo's own CLAUDE.md for stack deta
 ## Source of truth
 - \`manifest.yaml\` — canonical repo list. Run \`./clone-repos.sh\` to reconstruct.
 - \`memory-bank/\` — cross-repo knowledge wiki (read \`memory-bank/README.md\`).
-`;
+{{#parallelAgents}}
+## Parallel agents
+
+For features spanning repos, work in dependency order. One git worktree per
+repo; dispatch that repo's \`<repo>-engineer\` agent in each; finish with the
+\`cross-app-reviewer\` on the combined diff. Two parallel agents is comfortable;
+cap around 3–5 before human review becomes the bottleneck.
+{{/parallelAgents}}`;
 
 export const ROOT_README = `# {{workspaceName}}
 

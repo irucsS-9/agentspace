@@ -45,3 +45,28 @@ test("clone script uses resilient clone (reports FAILED and continues on error)"
   const sh = files.find((f) => f.path === "clone-repos.sh")!.contents;
   expect(sh).toContain("FAILED");
 });
+
+test("emits enforcement block and ignores state file when enforcement set", () => {
+  const files = generateManifest({
+    ...ctx,
+    contractLinked: true,
+    enforcement: { mode: "auto", warmPages: 5, warmSessions: 10 },
+  });
+  const yaml = files.find((f) => f.path === "manifest.yaml")!.contents;
+  expect(yaml).toContain("enforcement:");
+  expect(yaml).toContain("mode: auto");
+  const ignore = files.find((f) => f.path === ".gitignore")!.contents;
+  expect(ignore).toContain(".agentspace/state.json");
+});
+
+test("contract-linked CLAUDE.md includes the parallel-agents section", () => {
+  const files = generateManifest({ ...ctx, contractLinked: true, enforcement: { mode: "auto", warmPages: 5, warmSessions: 10 } });
+  const claude = files.find((f) => f.path === "CLAUDE.md")!.contents;
+  expect(claude).toContain("Parallel agents");
+});
+
+test("no enforcement block when enforcement is null", () => {
+  const yaml = generateManifest({ ...ctx, contractLinked: false, enforcement: null })
+    .find((f) => f.path === "manifest.yaml")!.contents;
+  expect(yaml).not.toContain("enforcement:");
+});
