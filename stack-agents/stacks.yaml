@@ -1,0 +1,22 @@
+# Registry: stack id -> display metadata. Adding a stack = one .md file + one row here.
+stacks:
+  - id: rails
+    displayName: Ruby on Rails
+    aliases: [rails, ruby, ror]
+  - id: nextjs
+    displayName: Next.js
+    aliases: [nextjs, next, react]
+  - id: expo
+    displayName: Expo / React Native
+    aliases: [expo, react-native, rn]
+  - id: go
+    displayName: Go
+    aliases: [go, golang]
+  - id: django
+    displayName: Django
+    aliases: [django, python]
+  - id: spring-boot
+    displayName: Spring Boot
+    aliases: [spring-boot, spring, java]
+# Default tool list for engineer agents (the reviewer uses a fixed read-only set).
+engineerTools: [Read, Write, Edit, MultiEdit, Bash, Grep, Glob]
