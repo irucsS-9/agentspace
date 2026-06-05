@@ -9,6 +9,8 @@ const ctx: ManifestContext = {
     { name: "api", remote: "git@x:api.git", stack: "rails", role: "backend" },
     { name: "web", remote: null, stack: "nextjs", role: "frontend" },
   ],
+  contractLinked: false,
+  enforcement: null,
 };
 
 test("emits the expected file set", () => {

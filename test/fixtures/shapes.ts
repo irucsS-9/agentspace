@@ -6,6 +6,7 @@ export const singleRepo: WorkspaceConfig = {
   repos: [{ name: "app", remote: "git@x:app.git", stack: "generic", role: "the app" }],
   dependencyOrder: null,
   pillars: ["manifest", "wiki"],
+  enforcement: null,
 };
 
 export const oneProduct: WorkspaceConfig = {
@@ -18,6 +19,7 @@ export const oneProduct: WorkspaceConfig = {
   ],
   dependencyOrder: ["api", "web", "mobile"],
   pillars: ["manifest", "wiki"],
+  enforcement: null,
 };
 
 export const unrelated: WorkspaceConfig = {
@@ -29,6 +31,7 @@ export const unrelated: WorkspaceConfig = {
   ],
   dependencyOrder: null,
   pillars: ["manifest", "wiki"],
+  enforcement: null,
 };
 
 export const peerServices: WorkspaceConfig = {
@@ -42,6 +45,7 @@ export const peerServices: WorkspaceConfig = {
   ],
   dependencyOrder: null,
   pillars: ["manifest", "wiki"],
+  enforcement: null,
 };
 
 export const libraryConsumers: WorkspaceConfig = {
@@ -54,4 +58,5 @@ export const libraryConsumers: WorkspaceConfig = {
   ],
   dependencyOrder: ["core-lib", "app-one", "app-two"],
   pillars: ["manifest", "wiki"],
+  enforcement: null,
 };

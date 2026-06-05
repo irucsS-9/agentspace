@@ -15,6 +15,7 @@ const base: WorkspaceConfig = {
   ],
   dependencyOrder: ["api", "web"],
   pillars: ["manifest", "wiki"],
+  enforcement: null,
 };
 
 describe("shape predicates", () => {

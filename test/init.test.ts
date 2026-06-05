@@ -14,6 +14,7 @@ const config: WorkspaceConfig = {
   ],
   dependencyOrder: ["api", "web"],
   pillars: ["manifest", "wiki"],
+  enforcement: null,
 };
 
 test("generateWorkspace emits manifest + wiki files for selected pillars", () => {

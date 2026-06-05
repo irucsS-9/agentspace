@@ -11,6 +11,7 @@ const config: WorkspaceConfig = {
   ],
   dependencyOrder: ["api", "web"],
   pillars: ["manifest", "wiki"],
+  enforcement: null,
 };
 
 test("builds typed slices with injected date", () => {

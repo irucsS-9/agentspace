@@ -11,6 +11,8 @@ export function buildContext(
       workspaceName: config.workspaceName,
       shape: config.shape,
       repos: config.repos,
+      contractLinked: isContractLinked(config),
+      enforcement: config.enforcement,
     },
     wiki: {
       workspaceName: config.workspaceName,
@@ -21,5 +23,6 @@ export function buildContext(
       dependencyOrder: config.dependencyOrder,
       today,
     },
+    enforcement: null,
   };
 }

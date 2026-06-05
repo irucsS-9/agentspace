@@ -26,5 +26,6 @@ export function assembleConfig(answers: WizardAnswers): WorkspaceConfig {
       ? answers.dependencyOrder
       : null,
     pillars,
+    enforcement: null,
   };
 }
