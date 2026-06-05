@@ -30,7 +30,7 @@ export function buildContext(
           shape: config.shape,
           contractLinked: isContractLinked(config),
           repos: config.repos,
-          config: config.enforcement,
+          config: { ...config.enforcement },
           folders: WIKI_FOLDERS,
         }
       : null,
