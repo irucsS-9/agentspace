@@ -1,6 +1,8 @@
 import { buildContext } from "../context/build";
 import { generateManifest } from "../generators/manifest";
 import { generateMemoryBank } from "../generators/memoryBank";
+import { generateEnforcementIntents } from "../generators/enforcement";
+import { claudeCodeAdapter } from "../adapters/claudeCode";
 import { writeTree } from "../fs/writeTree";
 import { runWizard } from "../wizard/run";
 import type { GeneratedFile, WorkspaceConfig } from "../types";
@@ -17,7 +19,10 @@ export function generateWorkspace(
   if (config.pillars.includes("wiki")) {
     files.push(...generateMemoryBank(ctx.wiki));
   }
-  // contracts/enforcement pillars are added in Plans 2 and 3.
+  if (config.pillars.includes("enforcement") && ctx.enforcement) {
+    const intents = generateEnforcementIntents(ctx.enforcement);
+    files.push(...claudeCodeAdapter(intents, ctx.enforcement));
+  }
   return files;
 }
 

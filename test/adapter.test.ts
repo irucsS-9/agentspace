@@ -48,6 +48,7 @@ test("sidecar carries the hook config; settings wires the hook", () => {
   expect(sidecar.mode).toBe("auto");
   const settings = JSON.parse(files.find((f) => f.path === ".claude/settings.json")!.contents);
   expect(JSON.stringify(settings)).toContain("memory-bank-stop.cjs");
+  expect(JSON.stringify(settings)).toContain("$CLAUDE_PROJECT_DIR");
 });
 
 test("non-contract shape: no hook, sidecar, reviewer, or settings", () => {

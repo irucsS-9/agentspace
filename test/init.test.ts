@@ -29,6 +29,26 @@ test("generateWorkspace omits wiki when not selected", () => {
   expect(files.some((f) => f.path.startsWith("memory-bank/"))).toBe(false);
 });
 
+test("enforcement pillar emits the .claude pack", () => {
+  const files = generateWorkspace(
+    {
+      ...config,
+      pillars: ["manifest", "wiki", "enforcement"],
+      enforcement: { mode: "auto", warmPages: 5, warmSessions: 10 },
+    },
+    "2026-06-05",
+  );
+  const paths = files.map((f) => f.path);
+  expect(paths).toContain(".claude/agents/api-engineer.md");
+  expect(paths).toContain(".claude/hooks/memory-bank-stop.cjs");
+  expect(paths).toContain(".claude/commands/lint.md");
+});
+
+test("no .claude pack when enforcement not selected", () => {
+  const files = generateWorkspace({ ...config, enforcement: null }, "2026-06-05");
+  expect(files.some((f) => f.path.startsWith(".claude/"))).toBe(false);
+});
+
 test("runInit writes the tree to disk", async () => {
   const dir = await mkdtemp(join(tmpdir(), "agentspace-init-"));
   const target = join(dir, "ws");
