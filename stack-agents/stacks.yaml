@@ -11,7 +11,7 @@ stacks:
     aliases: [expo, react-native, rn]
   - id: go
     displayName: Go
-    aliases: [go, golang]
+    aliases: [golang]
   - id: django
     displayName: Django
     aliases: [django, python]
