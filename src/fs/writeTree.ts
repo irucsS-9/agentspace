@@ -52,9 +52,11 @@ export async function writeTree(
 
     if (opts.force) {
       // Merge into existing dir, preserving unrelated files.
+      // cp is not atomic; a partial write is possible here (acceptable for an opt-in --force override).
       await cp(temp, targetDir, { recursive: true, force: true });
       await rm(temp, { recursive: true, force: true });
     } else if (await isNonEmptyDir(targetDir)) {
+      // Defensive: an empty target dir may have appeared (e.g. cwd); merge rather than throw.
       // Empty dir may exist (e.g. cwd). Merge then drop temp.
       await cp(temp, targetDir, { recursive: true, force: true });
       await rm(temp, { recursive: true, force: true });
