@@ -1,4 +1,5 @@
 import { isContractLinked } from "../shape";
+import { WIKI_FOLDERS } from "../templates/memoryBank";
 import type { WorkspaceConfig, WorkspaceContext } from "../types";
 
 export function buildContext(
@@ -23,6 +24,15 @@ export function buildContext(
       dependencyOrder: config.dependencyOrder,
       today,
     },
-    enforcement: null,
+    enforcement: config.enforcement
+      ? {
+          workspaceName: config.workspaceName,
+          shape: config.shape,
+          contractLinked: isContractLinked(config),
+          repos: config.repos,
+          config: config.enforcement,
+          folders: WIKI_FOLDERS,
+        }
+      : null,
   };
 }

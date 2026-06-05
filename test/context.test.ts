@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 import { buildContext } from "../src/context/build";
 import type { WorkspaceConfig } from "../src/types";
+import { WIKI_FOLDERS } from "../src/templates/memoryBank";
 
 const config: WorkspaceConfig = {
   workspaceName: "cork",
@@ -29,4 +30,16 @@ test("unrelated shape is not contract-linked and not one-product", () => {
   );
   expect(ctx.wiki.isOneProduct).toBe(false);
   expect(ctx.wiki.contractLinked).toBe(false);
+});
+
+test("enforcement context present when config set", () => {
+  const ctx = buildContext({ ...config, enforcement: { mode: "auto", warmPages: 5, warmSessions: 10 }, pillars: ["manifest", "wiki", "enforcement"] }, "2026-06-05");
+  expect(ctx.enforcement).not.toBeNull();
+  expect(ctx.enforcement!.contractLinked).toBe(true);
+  expect(ctx.enforcement!.folders).toEqual(WIKI_FOLDERS);
+});
+
+test("enforcement context null when no config", () => {
+  const ctx = buildContext({ ...config, enforcement: null }, "2026-06-05");
+  expect(ctx.enforcement).toBeNull();
 });
