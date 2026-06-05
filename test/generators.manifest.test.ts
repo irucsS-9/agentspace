@@ -37,3 +37,9 @@ test("clone script inlines repos and gitignore excludes repo dirs + local settin
   expect(ignore).toContain("web/");
   expect(ignore).toContain("**/.claude/settings.local.json");
 });
+
+test("clone script uses resilient clone (reports FAILED and continues on error)", () => {
+  const files = generateManifest(ctx);
+  const sh = files.find((f) => f.path === "clone-repos.sh")!.contents;
+  expect(sh).toContain("FAILED");
+});

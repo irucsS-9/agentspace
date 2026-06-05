@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { generateWorkspace } from "../src/commands/init";
-import { oneProduct, singleRepo, unrelated } from "./fixtures/shapes";
+import { oneProduct, singleRepo, unrelated, peerServices, libraryConsumers } from "./fixtures/shapes";
 
 const at = (files: { path: string }[]) => files.map((f) => f.path);
 
@@ -30,4 +30,28 @@ test("output is deterministic for a fixed date (parity on owned files)", () => {
 test("every emitted path is unique", () => {
   const paths = at(generateWorkspace(oneProduct, "2026-06-05"));
   expect(new Set(paths).size).toBe(paths.length);
+});
+
+test("peer-services emits crossAppContracts stub", () => {
+  const paths = at(generateWorkspace(peerServices, "2026-06-05"));
+  expect(paths).toContain("memory-bank/00-core/crossAppContracts.md");
+});
+
+test("library-consumers emits crossAppContracts stub", () => {
+  const paths = at(generateWorkspace(libraryConsumers, "2026-06-05"));
+  expect(paths).toContain("memory-bank/00-core/crossAppContracts.md");
+});
+
+test("peer-services output contains no unresolved Mustache artifacts", () => {
+  const files = generateWorkspace(peerServices, "2026-06-05");
+  for (const file of files) {
+    expect(file.contents, `${file.path} has unresolved {{`).not.toMatch(/\{\{/);
+  }
+});
+
+test("library-consumers output contains no unresolved Mustache artifacts", () => {
+  const files = generateWorkspace(libraryConsumers, "2026-06-05");
+  for (const file of files) {
+    expect(file.contents, `${file.path} has unresolved {{`).not.toMatch(/\{\{/);
+  }
 });

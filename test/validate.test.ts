@@ -43,4 +43,17 @@ describe("validateUniqueNames", () => {
     expect(validateUniqueNames(["a", "b", "a"])).toMatch(/duplicate/i);
     expect(validateUniqueNames(["a", "b"])).toBeNull();
   });
+  test("detects duplicate when a new name matches an already-collected repo name", () => {
+    // Simulates the wizard pattern: existing repos ["api", "web"], candidate = "api"
+    const existingNames = ["api", "web"];
+    const candidateName = "api";
+    const error = validateUniqueNames([...existingNames, candidateName]);
+    expect(error).toMatch(/duplicate/i);
+    expect(error).toContain("api");
+  });
+  test("allows a unique new name to be added to existing repos", () => {
+    const existingNames = ["api", "web"];
+    const candidateName = "mobile";
+    expect(validateUniqueNames([...existingNames, candidateName])).toBeNull();
+  });
 });

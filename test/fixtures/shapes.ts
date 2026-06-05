@@ -30,3 +30,28 @@ export const unrelated: WorkspaceConfig = {
   dependencyOrder: null,
   pillars: ["manifest", "wiki"],
 };
+
+export const peerServices: WorkspaceConfig = {
+  workspaceName: "fleet",
+  shape: "peer-services",
+  repos: [
+    { name: "svc-a", remote: "git@x:svc-a.git", stack: "generic", role: "service A" },
+    { name: "svc-b", remote: "git@x:svc-b.git", stack: "generic", role: "service B" },
+    { name: "svc-c", remote: "git@x:svc-c.git", stack: "generic", role: "service C" },
+    { name: "svc-d", remote: null, stack: "generic", role: "service D" },
+  ],
+  dependencyOrder: null,
+  pillars: ["manifest", "wiki"],
+};
+
+export const libraryConsumers: WorkspaceConfig = {
+  workspaceName: "lib-workspace",
+  shape: "library-consumers",
+  repos: [
+    { name: "core-lib", remote: "git@x:core-lib.git", stack: "generic", role: "shared library" },
+    { name: "app-one", remote: "git@x:app-one.git", stack: "generic", role: "consumer app one" },
+    { name: "app-two", remote: "git@x:app-two.git", stack: "generic", role: "consumer app two" },
+  ],
+  dependencyOrder: ["core-lib", "app-one", "app-two"],
+  pillars: ["manifest", "wiki"],
+};

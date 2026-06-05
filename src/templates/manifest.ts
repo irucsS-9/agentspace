@@ -28,7 +28,9 @@ for entry in "\${REPOS[@]}"; do
     echo "skip   \$name (local-only, no remote)"
   else
     echo "clone  \$name"
-    git clone "\$remote" "\$name"
+    if ! git clone "\$remote" "\$name"; then
+      echo "FAILED \$name (continuing)"
+    fi
   fi
 done
 `;

@@ -4,6 +4,7 @@ import { shapeHasDependencyOrder } from "../shape";
 import {
   validateRemote,
   validateRepoName,
+  validateUniqueNames,
   validateWorkspaceName,
 } from "./validate";
 import type { WorkspaceConfig, WorkspaceShape } from "../types";
@@ -39,11 +40,21 @@ export async function runWizard(): Promise<WorkspaceConfig> {
   const repos: WizardAnswers["repos"] = [];
   let addMore = true;
   while (addMore) {
-    const name = await p.text({
-      message: `Repo #${repos.length + 1} directory name`,
-      validate: (v) => validateRepoName(v) ?? undefined,
-    });
-    cancel(name);
+    let name: string;
+    while (true) {
+      const nameInput = await p.text({
+        message: `Repo #${repos.length + 1} directory name`,
+        validate: (v) => validateRepoName(v) ?? undefined,
+      });
+      cancel(nameInput);
+      const dupError = validateUniqueNames([...repos.map((r) => r.name), nameInput.trim()]);
+      if (dupError) {
+        p.log.error(dupError);
+        continue;
+      }
+      name = nameInput;
+      break;
+    }
     const remote = await p.text({
       message: "Git remote URL (blank = local-only)",
       validate: (v) => validateRemote(v) ?? undefined,
