@@ -65,6 +65,9 @@ function main() {
   let cfg;
   try { cfg = JSON.parse(fs.readFileSync(configFile, 'utf8')); } catch { process.exit(0); }
   const subRepos = Array.isArray(cfg.subRepos) ? cfg.subRepos : [];
+  const mode = (cfg.mode === 'warn' || cfg.mode === 'block') ? cfg.mode : 'auto';
+  const warmPages = typeof cfg.warmPages === 'number' ? cfg.warmPages : 5;
+  const warmSessions = typeof cfg.warmSessions === 'number' ? cfg.warmSessions : 10;
 
   // Count this session (every Stop on a configured workspace).
   const stateFile = path.join(projectDir, '.agentspace', 'state.json');
@@ -77,8 +80,12 @@ function main() {
   const touched = new Set();
   let memoryBankUpdated = false;
   const tp = input.transcript_path;
-  if (tp && fs.existsSync(tp)) {
-    for (const line of fs.readFileSync(tp, 'utf8').split('\n')) {
+  let transcriptLines = [];
+  try {
+    if (tp && fs.existsSync(tp)) transcriptLines = fs.readFileSync(tp, 'utf8').split('\n');
+  } catch { /* best effort — treat as no transcript, fail open */ }
+  if (transcriptLines.length) {
+    for (const line of transcriptLines) {
       if (!line.trim()) continue;
       let evt; try { evt = JSON.parse(line); } catch { continue; }
       const content = evt && evt.message && evt.message.content;
@@ -98,10 +105,10 @@ function main() {
   const warm = isWarm({
     pages: countRealPages(mbDir),
     sessions: state.sessions,
-    warmPages: cfg.warmPages,
-    warmSessions: cfg.warmSessions,
+    warmPages,
+    warmSessions,
   });
-  const decision = decideStop({ mode: cfg.mode, warm, crossAppMutation, memoryBankUpdated });
+  const decision = decideStop({ mode, warm, crossAppMutation, memoryBankUpdated });
 
   if (decision === 'allow') process.exit(0);
 
@@ -123,7 +130,7 @@ function main() {
 }
 
 if (require.main === module) {
-  main();
+  try { main(); } catch { process.exit(0); }
 } else {
   module.exports = { decideStop, isWarm, countRealPages, readState, writeState };
 }
