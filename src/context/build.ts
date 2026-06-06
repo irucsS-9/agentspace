@@ -7,7 +7,8 @@ export function buildContext(
   today: string,
 ): WorkspaceContext {
   const pillars = config.pillars;
-  const hasContracts = pillars.includes("contracts") && isContractLinked(config);
+  const contractLinked = isContractLinked(config);
+  const hasContracts = pillars.includes("contracts") && contractLinked;
 
   return {
     config,
@@ -15,7 +16,7 @@ export function buildContext(
       workspaceName: config.workspaceName,
       shape: config.shape,
       repos: config.repos,
-      contractLinked: isContractLinked(config),
+      contractLinked,
       enforcement: config.enforcement,
       hasContracts,
     },
@@ -23,7 +24,7 @@ export function buildContext(
       workspaceName: config.workspaceName,
       shape: config.shape,
       isOneProduct: config.shape === "one-product",
-      contractLinked: isContractLinked(config),
+      contractLinked,
       repos: config.repos,
       dependencyOrder: config.dependencyOrder,
       today,
@@ -33,7 +34,7 @@ export function buildContext(
       ? {
           workspaceName: config.workspaceName,
           shape: config.shape,
-          contractLinked: isContractLinked(config),
+          contractLinked,
           repos: config.repos,
           config: { ...config.enforcement },
           folders: WIKI_FOLDERS,
@@ -43,7 +44,7 @@ export function buildContext(
       ? {
           workspaceName: config.workspaceName,
           shape: config.shape,
-          contractLinked: isContractLinked(config),
+          contractLinked,
           repos: config.repos,
           dependencyOrder: config.dependencyOrder,
           hasWiki: pillars.includes("wiki"),
