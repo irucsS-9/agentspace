@@ -14,6 +14,7 @@ function ctx(overrides: Partial<WikiContext> = {}): WikiContext {
     ],
     dependencyOrder: ["api", "web"],
     today: "2026-06-05",
+    hasContracts: false,
     ...overrides,
   };
 }

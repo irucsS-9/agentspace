@@ -43,3 +43,29 @@ test("enforcement context null when no config", () => {
   const ctx = buildContext({ ...config, enforcement: null }, "2026-06-05");
   expect(ctx.enforcement).toBeNull();
 });
+
+test("contracts context present + hasContracts threaded when pillar selected on contract-linked shape", () => {
+  const ctx = buildContext(
+    { ...config, pillars: ["manifest", "wiki", "contracts"], enforcement: null },
+    "2026-06-06",
+  );
+  expect(ctx.contracts).not.toBeNull();
+  expect(ctx.contracts!.contractLinked).toBe(true);
+  expect(ctx.wiki.hasContracts).toBe(true);
+  expect(ctx.manifest.hasContracts).toBe(true);
+});
+
+test("no contracts context + hasContracts false when pillar absent", () => {
+  const ctx = buildContext({ ...config, pillars: ["manifest", "wiki"] }, "2026-06-06");
+  expect(ctx.contracts).toBeNull();
+  expect(ctx.wiki.hasContracts).toBe(false);
+  expect(ctx.manifest.hasContracts).toBe(false);
+});
+
+test("hasContracts false on a non-contract shape even if pillar selected", () => {
+  const ctx = buildContext(
+    { ...config, shape: "single-repo", repos: [config.repos[0]], dependencyOrder: null, pillars: ["manifest", "contracts"] },
+    "2026-06-06",
+  );
+  expect(ctx.wiki.hasContracts).toBe(false);
+});

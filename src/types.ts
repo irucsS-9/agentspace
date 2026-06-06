@@ -42,6 +42,7 @@ export interface ManifestContext {
   repos: RepoInput[];
   contractLinked: boolean;
   enforcement: EnforcementConfig | null;
+  hasContracts: boolean;
 }
 
 export interface WikiContext {
@@ -54,6 +55,16 @@ export interface WikiContext {
   dependencyOrder: string[] | null;
   /** ISO date (YYYY-MM-DD) injected for deterministic output. */
   today: string;
+  hasContracts: boolean;
+}
+
+export interface ContractsContext {
+  workspaceName: string;
+  shape: WorkspaceShape;
+  contractLinked: boolean;
+  repos: RepoInput[];
+  dependencyOrder: string[] | null;
+  hasWiki: boolean;
 }
 
 export interface WorkspaceContext {
@@ -61,6 +72,7 @@ export interface WorkspaceContext {
   manifest: ManifestContext;
   wiki: WikiContext;
   enforcement: EnforcementContext | null;
+  contracts: ContractsContext | null;
 }
 
 export type HookMode = "auto" | "warn" | "block";

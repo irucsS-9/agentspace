@@ -11,6 +11,7 @@ const ctx: ManifestContext = {
   ],
   contractLinked: false,
   enforcement: null,
+  hasContracts: false,
 };
 
 test("emits the expected file set", () => {
