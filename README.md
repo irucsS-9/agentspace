@@ -1,6 +1,6 @@
 # agentspace
 
-[![CI](https://github.com/shawazeahmer/agentspace/actions/workflows/ci.yml/badge.svg)](https://github.com/shawazeahmer/agentspace/actions/workflows/ci.yml)
+[![CI](https://github.com/irucsS-9/agentspace/actions/workflows/ci.yml/badge.svg)](https://github.com/irucsS-9/agentspace/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![npm](https://img.shields.io/npm/v/agentspace.svg)](https://www.npmjs.com/package/agentspace)
 

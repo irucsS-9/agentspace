@@ -8,13 +8,13 @@
   "engines": { "node": ">=18" },
   "license": "MIT",
   "author": "Shawaze Ahmer <support@corkcrm.com>",
-  "homepage": "https://github.com/shawazeahmer/agentspace#readme",
+  "homepage": "https://github.com/irucsS-9/agentspace#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shawazeahmer/agentspace.git"
+    "url": "git+https://github.com/irucsS-9/agentspace.git"
   },
   "bugs": {
-    "url": "https://github.com/shawazeahmer/agentspace/issues"
+    "url": "https://github.com/irucsS-9/agentspace/issues"
   },
   "keywords": [
     "multi-repo",

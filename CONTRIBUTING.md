@@ -6,7 +6,7 @@ ideas, and PRs — are welcome.
 ## Development setup
 
 ```bash
-git clone https://github.com/shawazeahmer/agentspace.git
+git clone https://github.com/irucsS-9/agentspace.git
 cd agentspace
 npm install
 ```

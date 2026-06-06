@@ -30,4 +30,4 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Contracts (OpenSpec) pillar is not yet implemented; see the roadmap in the
   README.
 
-[Unreleased]: https://github.com/shawazeahmer/agentspace/commits/main
+[Unreleased]: https://github.com/irucsS-9/agentspace/commits/main
