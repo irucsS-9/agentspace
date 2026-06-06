@@ -12,6 +12,7 @@ const answers: WizardAnswers = {
   dependencyOrder: ["api", "web"],
   enableWiki: true,
   enableEnforcement: false,
+  enableContracts: false,
 };
 
 test("assembles a config, mapping empty remote to null", () => {
@@ -40,4 +41,14 @@ test("no enforcement pillar or config when disabled", () => {
   const cfg = assembleConfig({ ...answers, enableEnforcement: false });
   expect(cfg.pillars).not.toContain("enforcement");
   expect(cfg.enforcement).toBeNull();
+});
+
+test("contracts pillar when enabled", () => {
+  const cfg = assembleConfig({ ...answers, enableContracts: true });
+  expect(cfg.pillars).toContain("contracts");
+});
+
+test("no contracts pillar when disabled", () => {
+  const cfg = assembleConfig({ ...answers, enableContracts: false });
+  expect(cfg.pillars).not.toContain("contracts");
 });

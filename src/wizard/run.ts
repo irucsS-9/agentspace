@@ -99,6 +99,12 @@ export async function runWizard(): Promise<WorkspaceConfig> {
   });
   cancel(enableEnforcement as unknown as string);
 
+  const enableContracts = await p.confirm({
+    message: "Include the cross-repo contract layer (OpenSpec)?",
+    initialValue: false,
+  });
+  cancel(enableContracts as unknown as string);
+
   p.outro("Generating workspace…");
   return assembleConfig({
     workspaceName,
@@ -107,5 +113,6 @@ export async function runWizard(): Promise<WorkspaceConfig> {
     dependencyOrder,
     enableWiki: enableWiki === true,
     enableEnforcement: enableEnforcement === true,
+    enableContracts: enableContracts === true,
   });
 }

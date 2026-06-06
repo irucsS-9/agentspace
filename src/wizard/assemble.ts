@@ -9,12 +9,14 @@ export interface WizardAnswers {
   dependencyOrder: string[];
   enableWiki: boolean;
   enableEnforcement: boolean;
+  enableContracts: boolean;
 }
 
 export function assembleConfig(answers: WizardAnswers): WorkspaceConfig {
   const pillars: Pillar[] = ["manifest"];
   if (answers.enableWiki) pillars.push("wiki");
   if (answers.enableEnforcement) pillars.push("enforcement");
+  if (answers.enableContracts) pillars.push("contracts");
 
   return {
     workspaceName: answers.workspaceName.trim(),
