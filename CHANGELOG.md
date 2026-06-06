@@ -6,6 +6,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-06-06
+
+### Changed
+- Reframed the README as product documentation (install, requirements, usage,
+  hook configuration, and the contract/stack-agent workflows); removed the
+  version-history and roadmap framing.
+
 ## [0.3.0] - 2026-06-06
 
 ### Added
@@ -33,5 +40,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `openspec` CLI is absent. agentspace scaffolds and delegates — the `/opsx:*`
   commands come from `openspec update`, not from agentspace.
 
-[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.1
 [0.3.0]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.0
