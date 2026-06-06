@@ -55,3 +55,30 @@ test("formatLintJson emits a findings document", () => {
   const out = formatLintJson([{ level: "warn", message: "x too big" }]);
   expect(JSON.parse(out)).toEqual({ findings: [{ level: "warn", message: "x too big" }] });
 });
+
+test("warns when openspec/ exists but the openspec CLI is absent", async () => {
+  await write("manifest.yaml", "workspace: x\nrepos:\n  - name: a\n");
+  await write("openspec/project.md", "# contracts\n");
+  const findings = await runChecks(dir, "2026-06-06", { openspecAvailable: () => false });
+  expect(findings.some((f) => f.level === "warn" && /openspec/i.test(f.message))).toBe(true);
+});
+
+test("no openspec warning when the CLI is present", async () => {
+  await write("manifest.yaml", "workspace: x\nrepos:\n  - name: a\n");
+  await write("openspec/project.md", "# contracts\n");
+  const findings = await runChecks(dir, "2026-06-06", { openspecAvailable: () => true });
+  expect(findings.some((f) => /openspec/i.test(f.message))).toBe(false);
+});
+
+test("no openspec warning when there is no openspec/ dir", async () => {
+  await write("manifest.yaml", "workspace: x\nrepos:\n  - name: a\n");
+  const findings = await runChecks(dir, "2026-06-06", { openspecAvailable: () => false });
+  expect(findings.some((f) => /openspec/i.test(f.message))).toBe(false);
+});
+
+test("formatLintJson on a clean workspace yields empty findings", async () => {
+  await write("manifest.yaml", "workspace: x\nrepos:\n  - name: a\n");
+  await write("memory-bank/00-core/projectOverview.md", "# o\n\n_Last verified: 2026-06-01_\n");
+  const findings = await runChecks(dir, "2026-06-06", { openspecAvailable: () => true });
+  expect(JSON.parse(formatLintJson(findings))).toEqual({ findings: [] });
+});

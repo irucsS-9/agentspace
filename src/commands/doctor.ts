@@ -1,11 +1,17 @@
 import { readFile, readdir, stat } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse } from "yaml";
 import { SIZE_BUDGETS, STALE_DAYS } from "../budgets";
+import { openspecAvailable as realOpenspecAvailable } from "../openspec";
 
 export interface DoctorFinding {
   level: "error" | "warn" | "info";
   message: string;
+}
+
+export interface DoctorDeps {
+  openspecAvailable?: () => boolean;
 }
 
 async function walk(dir: string): Promise<string[]> {
@@ -34,8 +40,10 @@ function daysBetween(fromIso: string, toIso: string): number {
 export async function runChecks(
   workspaceDir: string,
   today: string,
+  deps: DoctorDeps = {},
 ): Promise<DoctorFinding[]> {
   const findings: DoctorFinding[] = [];
+  const isOpenspecAvailable = deps.openspecAvailable ?? realOpenspecAvailable;
 
   // 1. Manifest validity.
   try {
@@ -77,9 +85,15 @@ export async function runChecks(
     }
   }
 
-  if (findings.length === 0) {
-    findings.push({ level: "info", message: "No issues found." });
+  // 3. OpenSpec presence (only when a contract layer was scaffolded).
+  if (existsSync(join(workspaceDir, "openspec")) && !isOpenspecAvailable()) {
+    findings.push({
+      level: "warn",
+      message:
+        "openspec/ is present but the `openspec` CLI was not found on PATH. Install it (https://github.com/Fission-AI/OpenSpec) and run `openspec update`.",
+    });
   }
+
   return findings;
 }
 
@@ -95,6 +109,8 @@ export async function doctorCommand(
   const findings = await runChecks(workspaceDir, today);
   if (opts.lint) {
     console.log(formatLintJson(findings));
+  } else if (findings.length === 0) {
+    console.log("· No issues found.");
   } else {
     for (const f of findings) {
       const tag = f.level === "error" ? "✗" : f.level === "warn" ? "!" : "·";
