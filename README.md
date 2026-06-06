@@ -12,8 +12,8 @@ npx agentspace init     # interactive wizard → scaffold the workspace
 npx agentspace doctor   # mechanical health checks on a workspace
 ```
 
-> Status: **early (v0.1).** The default pillars (workspace reconstruction + the
-> memory-bank wiki) work today. The enforcement and contract pillars are on the
+> Status: **v0.2.** Workspace reconstruction, the memory-bank wiki, and the
+> opt-in enforcement pack work today. The cross-app contract pillar is on the
 > roadmap below.
 
 ---
@@ -83,18 +83,14 @@ npx agentspace doctor    # check workspace health (size budgets, staleness, mani
 
 ## Roadmap
 
-- **Enforcement pillar** — tool-neutral agent/enforcement intents + a Claude Code
-  adapter, a per-stack agent library (community contribution surface), the
-  warm-until-warm Stop hook, and the `/ingest` `/query` `/lint` commands.
 - **Contracts pillar** — a wrapper around [OpenSpec](https://github.com/Fission-AI/OpenSpec)
   for the cross-app contract lifecycle.
 - More tool adapters (Cursor, Windsurf, …) via the same intent seam.
 
 ## Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md). The per-stack agent library (coming with
-the enforcement pillar) is designed so adding support for a new stack is a single
-markdown file — issues and PRs welcome.
+See [CONTRIBUTING.md](./CONTRIBUTING.md). The per-stack agent library is designed
+so adding support for a new stack is a single markdown file — issues and PRs welcome.
 
 ## Development
 
