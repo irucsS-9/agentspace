@@ -6,15 +6,17 @@ import { VERSION } from "./version";
 export interface ParsedArgs {
   command: "init" | "doctor" | "version" | "help";
   force: boolean;
+  lint: boolean;
 }
 
 export function parseArgs(argv: string[]): ParsedArgs {
   const force = argv.includes("--force");
+  const lint = argv.includes("--lint");
   const first = argv[0];
-  if (first === "init") return { command: "init", force };
-  if (first === "doctor") return { command: "doctor", force };
-  if (first === "--version" || first === "-v") return { command: "version", force };
-  return { command: "help", force };
+  if (first === "init") return { command: "init", force, lint };
+  if (first === "doctor") return { command: "doctor", force, lint };
+  if (first === "--version" || first === "-v") return { command: "version", force, lint };
+  return { command: "help", force, lint };
 }
 
 const HELP = `agentspace — scaffold an agent-native multi-repo workspace
@@ -38,7 +40,7 @@ export async function main(argv: string[]): Promise<number> {
       await initCommand({ force: args.force, today: todayIso() });
       return 0;
     case "doctor":
-      return doctorCommand(process.cwd(), todayIso());
+      return doctorCommand(process.cwd(), todayIso(), { lint: args.lint });
     case "version":
       console.log(VERSION);
       return 0;

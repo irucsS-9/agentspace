@@ -83,11 +83,23 @@ export async function runChecks(
   return findings;
 }
 
-export async function doctorCommand(workspaceDir: string, today: string): Promise<number> {
+export function formatLintJson(findings: DoctorFinding[]): string {
+  return JSON.stringify({ findings });
+}
+
+export async function doctorCommand(
+  workspaceDir: string,
+  today: string,
+  opts: { lint?: boolean } = {},
+): Promise<number> {
   const findings = await runChecks(workspaceDir, today);
-  for (const f of findings) {
-    const tag = f.level === "error" ? "✗" : f.level === "warn" ? "!" : "·";
-    console.log(`${tag} ${f.message}`);
+  if (opts.lint) {
+    console.log(formatLintJson(findings));
+  } else {
+    for (const f of findings) {
+      const tag = f.level === "error" ? "✗" : f.level === "warn" ? "!" : "·";
+      console.log(`${tag} ${f.message}`);
+    }
   }
   return findings.some((f) => f.level === "error") ? 1 : 0;
 }

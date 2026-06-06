@@ -2,7 +2,7 @@ import { afterEach, beforeEach, expect, test } from "vitest";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { runChecks } from "../src/commands/doctor";
+import { runChecks, formatLintJson } from "../src/commands/doctor";
 
 let dir: string;
 beforeEach(async () => {
@@ -49,4 +49,9 @@ test("clean workspace yields no errors", async () => {
   );
   const findings = await runChecks(dir, "2026-06-05");
   expect(findings.some((f) => f.level === "error")).toBe(false);
+});
+
+test("formatLintJson emits a findings document", () => {
+  const out = formatLintJson([{ level: "warn", message: "x too big" }]);
+  expect(JSON.parse(out)).toEqual({ findings: [{ level: "warn", message: "x too big" }] });
 });
