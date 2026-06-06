@@ -6,6 +6,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-06-06
+
+### Fixed
+- The CLI did nothing when run via `npx` or a global install: the entry-point
+  guard compared the bin **symlink** path against the resolved module path and
+  never matched, so `main()` never ran. The symlink is now resolved with
+  `realpathSync` before comparison.
+
 ## [0.3.1] - 2026-06-06
 
 ### Changed
@@ -40,6 +48,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `openspec` CLI is absent. agentspace scaffolds and delegates — the `/opsx:*`
   commands come from `openspec update`, not from agentspace.
 
-[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.2...HEAD
+[0.3.2]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.2
 [0.3.1]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.1
 [0.3.0]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.0
