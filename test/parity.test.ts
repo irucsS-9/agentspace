@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { generateWorkspace } from "../src/commands/init";
-import { oneProduct, singleRepo, unrelated, peerServices, libraryConsumers, oneProductEnforced, singleRepoEnforced } from "./fixtures/shapes";
+import { oneProduct, singleRepo, unrelated, peerServices, libraryConsumers, oneProductEnforced, singleRepoEnforced, oneProductContracts, peerServicesContracts, singleRepoContracts } from "./fixtures/shapes";
 
 const at = (files: { path: string }[]) => files.map((f) => f.path);
 
@@ -72,6 +72,30 @@ test("single-repo enforced: agents but NO hook or reviewer", () => {
 
 test("enforced output has no unresolved mustache artifacts", () => {
   for (const f of generateWorkspace(oneProductEnforced, "2026-06-05")) {
+    expect(f.contents.includes("{{")).toBe(false);
+  }
+});
+
+test("one-product contracts: emits openspec/ with project.md", () => {
+  const paths = at(generateWorkspace(oneProductContracts, "2026-06-06"));
+  expect(paths).toContain("openspec/project.md");
+  expect(paths).toContain("openspec/changes/archive/.gitkeep");
+});
+
+test("peer-services contracts: openspec/ present, peer-framed (no dependency order clause)", () => {
+  const md = generateWorkspace(peerServicesContracts, "2026-06-06")
+    .find((f) => f.path === "openspec/project.md")!.contents;
+  expect(md).toContain("peers");
+  expect(md).not.toContain("dependency order:");
+});
+
+test("single-repo contracts: NO openspec/ (shape-suppressed)", () => {
+  const paths = at(generateWorkspace(singleRepoContracts, "2026-06-06"));
+  expect(paths.some((p) => p.startsWith("openspec/"))).toBe(false);
+});
+
+test("contracts output has no unresolved mustache artifacts", () => {
+  for (const f of generateWorkspace(oneProductContracts, "2026-06-06")) {
     expect(f.contents.includes("{{")).toBe(false);
   }
 });

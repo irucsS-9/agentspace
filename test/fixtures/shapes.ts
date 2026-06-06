@@ -72,3 +72,21 @@ export const singleRepoEnforced: WorkspaceConfig = {
   pillars: ["manifest", "wiki", "enforcement"],
   enforcement: { mode: "auto", warmPages: 5, warmSessions: 10 },
 };
+
+export const oneProductContracts: WorkspaceConfig = {
+  ...oneProduct,
+  pillars: ["manifest", "wiki", "contracts"],
+  enforcement: null,
+};
+
+export const peerServicesContracts: WorkspaceConfig = {
+  ...peerServices,
+  pillars: ["manifest", "wiki", "contracts"],
+  enforcement: null,
+};
+
+export const singleRepoContracts: WorkspaceConfig = {
+  ...singleRepo,
+  pillars: ["manifest", "wiki", "contracts"],
+  enforcement: null,
+};
