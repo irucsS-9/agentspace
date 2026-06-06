@@ -20,9 +20,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `agentspace doctor` — mechanical health checks (manifest validity,
   memory-bank size budgets, last-verified staleness).
 - Pillar-selectable generation (manifest always; wiki default-on).
+- **Enforcement pillar (opt-in):** generates a Claude Code `.claude/` pack —
+  per-repo boundary-enforced agents from a stack-agent library, `/ingest`
+  `/query` `/lint` commands, a warm-until-warm Stop hook (`.cjs`), and a
+  cross-app reviewer; shape-gated (hook + reviewer only for contract-linked
+  workspaces). `agentspace doctor --lint` emits machine-readable findings.
 
 ### Notes
-- Enforcement (agents/hooks/commands) and contracts (OpenSpec) pillars are not
-  yet implemented; see the roadmap in the README.
+- Contracts (OpenSpec) pillar is not yet implemented; see the roadmap in the
+  README.
 
 [Unreleased]: https://github.com/shawazeahmer/agentspace/commits/main

@@ -42,7 +42,7 @@ It is the generalization of a hand-built workspace methodology into a reusable t
 | **Workspace reconstruction** | A declarative `manifest.yaml` + an idempotent `clone-repos.sh` that rebuilds the whole workspace on any machine. | ✅ v0.1 |
 | **LLM Wiki** (`memory-bank/`) | A [Karpathy-pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) knowledge base the agent curates as it works — citation discipline, staleness/size budgets, ingest/query/lint operations. | ✅ v0.1 (structure) |
 | **Cross-app contracts** (`openspec/`) | A prescriptive contract layer + propose/apply/archive lifecycle that fights contract drift across repos. | 🚧 roadmap |
-| **Agents + enforcement** | Boundary-enforced per-repo agents, a warm-until-warm Stop hook, a read-only cross-app reviewer. | 🚧 roadmap |
+| **Agents + enforcement** | Boundary-enforced per-repo agents, a warm-until-warm Stop hook, a read-only cross-app reviewer. | ✅ v0.2 |
 
 The point isn't any single pillar — it's the **integrated discipline** where they
 reinforce each other.
@@ -61,13 +61,16 @@ one-product/backend+clients workspace all get *different* output:
 
 You never get a pile of cork-shaped scaffolding that doesn't fit your project.
 
-## What `init` generates today (v0.1)
+## What `init` generates today (v0.2)
 
 - `manifest.yaml` + a resilient `clone-repos.sh`
 - a `.gitignore` (sub-repos are independent git repos, ignored by the workspace)
 - a root `CLAUDE.md` router + `README.md`
 - a shape-aware `memory-bank/` wiki: numbered priority folders, a conventions
   README, and seeded overview/contract stubs appropriate to your shape
+- (enforcement pillar, opt-in) a `.claude/` pack: per-repo boundary-enforced
+  agents, `/ingest` `/query` `/lint` commands, a warm-until-warm Stop hook, and
+  a cross-app reviewer (contract-linked shapes).
 
 ## Quick start
 

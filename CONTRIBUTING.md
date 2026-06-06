@@ -41,16 +41,18 @@ them on every push and pull request.
 consumes a typed slice of the context and emits files for one pillar. If you're
 adding a pillar, it slots into `generateWorkspace` in `src/commands/init.ts`.
 
-## The per-stack agent library (coming with the enforcement pillar)
+## The per-stack agent library
 
-The biggest planned contribution surface is the per-stack agent library. Once the
-enforcement pillar lands, adding support for a new stack (Rails, Next.js, Go,
-Django, Spring Boot, …) will be:
+The biggest contribution surface is the per-stack agent library. The enforcement
+pillar ships with six stacks (Rails, Next.js, Expo, Go, Django, Spring Boot) plus
+a `_generic` fallback. Adding support for a new stack is:
 
 1. Add `stack-agents/<stack-id>.md` — **stack-generic** guidance only (no
    project-specific facts; those belong in a per-repo TODO block the user fills in).
-2. Add one row to `stack-agents/stacks.yaml` mapping the id to a display name.
-3. Include a `_Last verified: YYYY-MM-DD_` footer; CI flags stale stack agents.
+2. Add one row to `stack-agents/stacks.yaml` mapping the id to a display name and
+   its aliases.
+3. Include a `_Last verified: YYYY-MM-DD_` footer; the `stackLibrary` test flags
+   any registered stack missing a backing file.
 
 No code change required — just a markdown file and a registry line.
 
