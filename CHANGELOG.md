@@ -6,6 +6,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-06-06
+
+### Fixed
+- `init` crashed with "Cannot read properties of undefined (reading 'trim')"
+  when a text answer (e.g. a repo's role) was left blank — `@clack/prompts`
+  returns `undefined` for an empty submission. All wizard text answers are now
+  coalesced before use, so blank inputs are safe.
+
 ## [0.3.2] - 2026-06-06
 
 ### Fixed
@@ -48,7 +56,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `openspec` CLI is absent. agentspace scaffolds and delegates — the `/opsx:*`
   commands come from `openspec update`, not from agentspace.
 
-[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.2...HEAD
+[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.3...HEAD
+[0.3.3]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.3
 [0.3.2]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.2
 [0.3.1]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.1
 [0.3.0]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.0
