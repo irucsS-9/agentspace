@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { generateWorkspace } from "../src/commands/init";
-import { oneProduct, singleRepo, unrelated, peerServices, libraryConsumers } from "./fixtures/shapes";
+import { oneProduct, singleRepo, unrelated, peerServices, libraryConsumers, oneProductEnforced, singleRepoEnforced } from "./fixtures/shapes";
 
 const at = (files: { path: string }[]) => files.map((f) => f.path);
 
@@ -53,5 +53,25 @@ test("library-consumers output contains no unresolved Mustache artifacts", () =>
   const files = generateWorkspace(libraryConsumers, "2026-06-05");
   for (const file of files) {
     expect(file.contents, `${file.path} has unresolved {{`).not.toMatch(/\{\{/);
+  }
+});
+
+test("one-product enforced: full .claude pack incl. hook + reviewer", () => {
+  const paths = at(generateWorkspace(oneProductEnforced, "2026-06-05"));
+  expect(paths).toContain(".claude/agents/cross-app-reviewer.md");
+  expect(paths).toContain(".claude/hooks/memory-bank-stop.cjs");
+  expect(paths).toContain(".claude/agentspace-hook.json");
+});
+
+test("single-repo enforced: agents but NO hook or reviewer", () => {
+  const paths = at(generateWorkspace(singleRepoEnforced, "2026-06-05"));
+  expect(paths.some((p) => p.startsWith(".claude/agents/"))).toBe(true);
+  expect(paths.some((p) => p.includes("hooks/"))).toBe(false);
+  expect(paths.some((p) => p.includes("cross-app-reviewer"))).toBe(false);
+});
+
+test("enforced output has no unresolved mustache artifacts", () => {
+  for (const f of generateWorkspace(oneProductEnforced, "2026-06-05")) {
+    expect(f.contents.includes("{{")).toBe(false);
   }
 });

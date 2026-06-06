@@ -60,3 +60,15 @@ export const libraryConsumers: WorkspaceConfig = {
   pillars: ["manifest", "wiki"],
   enforcement: null,
 };
+
+export const oneProductEnforced: WorkspaceConfig = {
+  ...oneProduct,
+  pillars: ["manifest", "wiki", "enforcement"],
+  enforcement: { mode: "auto", warmPages: 5, warmSessions: 10 },
+};
+
+export const singleRepoEnforced: WorkspaceConfig = {
+  ...singleRepo,
+  pillars: ["manifest", "wiki", "enforcement"],
+  enforcement: { mode: "auto", warmPages: 5, warmSessions: 10 },
+};
