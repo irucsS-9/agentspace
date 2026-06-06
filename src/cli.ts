@@ -1,3 +1,4 @@
+import { realpathSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 import { initCommand } from "./commands/init";
 import { doctorCommand } from "./commands/doctor";
@@ -51,11 +52,25 @@ export async function main(argv: string[]): Promise<number> {
   }
 }
 
-const invokedDirectly =
-  process.argv[1] !== undefined &&
-  import.meta.url === pathToFileURL(process.argv[1]).href;
+/**
+ * True when this module is the process entry point. `process.argv[1]` is the
+ * path as typed/symlinked (npm/npx install the bin as a symlink), so it must be
+ * resolved to its real path before comparing — otherwise a symlinked invocation
+ * (every `npx`/global-install run) never matches and `main()` never fires.
+ */
+export function isDirectInvocation(
+  moduleUrl: string,
+  argvPath: string | undefined,
+): boolean {
+  if (!argvPath) return false;
+  try {
+    return moduleUrl === pathToFileURL(realpathSync(argvPath)).href;
+  } catch {
+    return false;
+  }
+}
 
-if (invokedDirectly) {
+if (isDirectInvocation(import.meta.url, process.argv[1])) {
   main(process.argv.slice(2))
     .then((code) => process.exit(code))
     .catch((err) => {
