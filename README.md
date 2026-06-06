@@ -12,9 +12,8 @@ npx agentspace init     # interactive wizard → scaffold the workspace
 npx agentspace doctor   # mechanical health checks on a workspace
 ```
 
-> Status: **v0.2.** Workspace reconstruction, the memory-bank wiki, and the
-> opt-in enforcement pack work today. The cross-app contract pillar is on the
-> roadmap below.
+> Status: **v0.3.** Workspace reconstruction, the memory-bank wiki, the
+> enforcement pack, and the cross-repo contract layer all work today.
 
 ---
 
@@ -41,7 +40,7 @@ It is the generalization of a hand-built workspace methodology into a reusable t
 |---|---|---|
 | **Workspace reconstruction** | A declarative `manifest.yaml` + an idempotent `clone-repos.sh` that rebuilds the whole workspace on any machine. | ✅ v0.1 |
 | **LLM Wiki** (`memory-bank/`) | A [Karpathy-pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) knowledge base the agent curates as it works — citation discipline, staleness/size budgets, ingest/query/lint operations. | ✅ v0.1 (structure) |
-| **Cross-app contracts** (`openspec/`) | A prescriptive contract layer + propose/apply/archive lifecycle that fights contract drift across repos. | 🚧 roadmap |
+| **Cross-app contracts** (`openspec/`) | A prescriptive contract layer + propose/apply/archive lifecycle that fights contract drift across repos. | ✅ v0.3 |
 | **Agents + enforcement** | Boundary-enforced per-repo agents, a warm-until-warm Stop hook, a read-only cross-app reviewer. | ✅ v0.2 |
 
 The point isn't any single pillar — it's the **integrated discipline** where they
@@ -61,7 +60,7 @@ one-product/backend+clients workspace all get *different* output:
 
 You never get a pile of cork-shaped scaffolding that doesn't fit your project.
 
-## What `init` generates today (v0.2)
+## What `init` generates today (v0.3)
 
 - `manifest.yaml` + a resilient `clone-repos.sh`
 - a `.gitignore` (sub-repos are independent git repos, ignored by the workspace)
@@ -71,6 +70,9 @@ You never get a pile of cork-shaped scaffolding that doesn't fit your project.
 - (enforcement pillar, opt-in) a `.claude/` pack: per-repo boundary-enforced
   agents, `/ingest` `/query` `/lint` commands, a warm-until-warm Stop hook, and
   a cross-app reviewer (contract-linked shapes).
+- (contracts pillar, opt-in) an `openspec/` cross-repo contract layer — a
+  shape-aware `project.md` + `specs/`/`changes/`; the `/opsx:*` commands come
+  from the external `openspec` CLI (`openspec update`).
 
 ## Quick start
 
@@ -83,8 +85,6 @@ npx agentspace doctor    # check workspace health (size budgets, staleness, mani
 
 ## Roadmap
 
-- **Contracts pillar** — a wrapper around [OpenSpec](https://github.com/Fission-AI/OpenSpec)
-  for the cross-app contract lifecycle.
 - More tool adapters (Cursor, Windsurf, …) via the same intent seam.
 
 ## Contributing

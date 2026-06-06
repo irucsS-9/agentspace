@@ -25,9 +25,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `/query` `/lint` commands, a warm-until-warm Stop hook (`.cjs`), and a
   cross-app reviewer; shape-gated (hook + reviewer only for contract-linked
   workspaces). `agentspace doctor --lint` emits machine-readable findings.
-
-### Notes
-- Contracts (OpenSpec) pillar is not yet implemented; see the roadmap in the
-  README.
+- **Contracts pillar (opt-in):** scaffolds a shape-aware `openspec/` cross-repo
+  contract layer (`project.md` + empty `specs/`/`changes/`), shape-gated to
+  contract-linked workspaces; `agentspace doctor` warns if the external
+  `openspec` CLI is absent. agentspace scaffolds and delegates — the `/opsx:*`
+  commands come from `openspec update`, not from agentspace.
 
 [Unreleased]: https://github.com/irucsS-9/agentspace/commits/main
