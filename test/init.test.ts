@@ -49,6 +49,24 @@ test("no .claude pack when enforcement not selected", () => {
   expect(files.some((f) => f.path.startsWith(".claude/"))).toBe(false);
 });
 
+test("contracts pillar emits openspec/ for a contract-linked shape", () => {
+  const files = generateWorkspace(
+    { ...config, pillars: ["manifest", "wiki", "contracts"], enforcement: null },
+    "2026-06-06",
+  );
+  const paths = files.map((f) => f.path);
+  expect(paths).toContain("openspec/project.md");
+  expect(paths).toContain("openspec/changes/archive/.gitkeep");
+});
+
+test("contracts pillar emits nothing for a single-repo shape", () => {
+  const files = generateWorkspace(
+    { ...config, shape: "single-repo", repos: [config.repos[0]], dependencyOrder: null, pillars: ["manifest", "contracts"], enforcement: null },
+    "2026-06-06",
+  );
+  expect(files.some((f) => f.path.startsWith("openspec/"))).toBe(false);
+});
+
 test("runInit writes the tree to disk", async () => {
   const dir = await mkdtemp(join(tmpdir(), "agentspace-init-"));
   const target = join(dir, "ws");

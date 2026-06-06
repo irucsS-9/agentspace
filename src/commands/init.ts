@@ -2,6 +2,7 @@ import { buildContext } from "../context/build";
 import { generateManifest } from "../generators/manifest";
 import { generateMemoryBank } from "../generators/memoryBank";
 import { generateEnforcementIntents } from "../generators/enforcement";
+import { generateContracts } from "../generators/contracts";
 import { claudeCodeAdapter } from "../adapters/claudeCode";
 import { writeTree } from "../fs/writeTree";
 import { runWizard } from "../wizard/run";
@@ -22,6 +23,9 @@ export function generateWorkspace(
   if (config.pillars.includes("enforcement") && ctx.enforcement) {
     const intents = generateEnforcementIntents(ctx.enforcement);
     files.push(...claudeCodeAdapter(intents, ctx.enforcement));
+  }
+  if (config.pillars.includes("contracts") && ctx.contracts) {
+    files.push(...generateContracts(ctx.contracts));
   }
   return files;
 }
@@ -46,4 +50,9 @@ export async function initCommand(opts: { force: boolean; today: string }): Prom
   await runInit(config, process.cwd(), opts);
   console.log(`\n✓ Created ${config.workspaceName} (${config.pillars.join(", ")}).`);
   console.log("  Next: ./clone-repos.sh");
+  if (config.pillars.includes("contracts")) {
+    console.log(
+      "  Contracts: run `openspec update` to install the /opsx:* commands (install the openspec CLI first if needed).",
+    );
+  }
 }
