@@ -12,6 +12,11 @@ export interface WizardAnswers {
   enableContracts: boolean;
 }
 
+// @clack/prompts returns `undefined` for an empty text submission with no
+// default, so every text field is coalesced before use — an empty answer must
+// never crash generation.
+const str = (v: string | undefined): string => (v ?? "").trim();
+
 export function assembleConfig(answers: WizardAnswers): WorkspaceConfig {
   const pillars: Pillar[] = ["manifest"];
   if (answers.enableWiki) pillars.push("wiki");
@@ -19,14 +24,17 @@ export function assembleConfig(answers: WizardAnswers): WorkspaceConfig {
   if (answers.enableContracts) pillars.push("contracts");
 
   return {
-    workspaceName: answers.workspaceName.trim(),
+    workspaceName: str(answers.workspaceName),
     shape: answers.shape,
-    repos: answers.repos.map((r) => ({
-      name: r.name.trim(),
-      remote: r.remote.trim() === "" ? null : r.remote.trim(),
-      stack: r.stack,
-      role: r.role.trim(),
-    })),
+    repos: answers.repos.map((r) => {
+      const remote = str(r.remote);
+      return {
+        name: str(r.name),
+        remote: remote === "" ? null : remote,
+        stack: str(r.stack) || "generic",
+        role: str(r.role),
+      };
+    }),
     dependencyOrder: shapeHasDependencyOrder(answers.shape)
       ? answers.dependencyOrder
       : null,
