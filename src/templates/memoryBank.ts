@@ -78,6 +78,8 @@ export const CROSS_APP_CONTRACTS = `# Cross-App Contracts — {{workspaceName}}
 
 > No contracts recorded yet. Populate this after your first cross-repo change.
 > Every entry must cite \`file:line\` and end the page with a verified date footer.
+{{#hasContracts}}> Cite the matching \`openspec/specs/<capability>/spec.md\` for each contract recorded here.
+{{/hasContracts}}
 
 {{#dependencyOrder.length}}**Dependency order:** {{#dependencyOrder}}{{.}} → {{/dependencyOrder}}(done)
 {{/dependencyOrder.length}}

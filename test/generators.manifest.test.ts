@@ -71,3 +71,15 @@ test("no enforcement block when enforcement is null", () => {
     .find((f) => f.path === "manifest.yaml")!.contents;
   expect(yaml).not.toContain("enforcement:");
 });
+
+test("CLAUDE.md points at openspec/project.md when hasContracts", () => {
+  const claude = generateManifest({ ...ctx, contractLinked: true, hasContracts: true })
+    .find((f) => f.path === "CLAUDE.md")!.contents;
+  expect(claude).toContain("openspec/project.md");
+});
+
+test("CLAUDE.md has no openspec pointer when hasContracts false", () => {
+  const claude = generateManifest({ ...ctx, hasContracts: false })
+    .find((f) => f.path === "CLAUDE.md")!.contents;
+  expect(claude).not.toContain("openspec/project.md");
+});

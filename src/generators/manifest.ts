@@ -21,6 +21,7 @@ export function generateManifest(ctx: ManifestContext): GeneratedFile[] {
     repos,
     enforcement: ctx.enforcement, // mustache section: truthy object renders the block
     parallelAgents: ctx.contractLinked && ctx.repos.length > 1,
+    hasContracts: ctx.hasContracts,
   };
   return [
     { path: "manifest.yaml", contents: render(MANIFEST_YAML, view) },

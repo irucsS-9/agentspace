@@ -17,6 +17,7 @@ export function generateMemoryBank(ctx: WikiContext): GeneratedFile[] {
     repos: ctx.repos,
     dependencyOrder: ctx.dependencyOrder ?? [],
     today: ctx.today,
+    hasContracts: ctx.hasContracts,
   };
 
   const files: GeneratedFile[] = [];

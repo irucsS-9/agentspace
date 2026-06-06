@@ -66,7 +66,13 @@ For features spanning repos, work in dependency order. One git worktree per
 repo; dispatch that repo's \`<repo>-engineer\` agent in each; finish with the
 \`cross-app-reviewer\` on the combined diff. Two parallel agents is comfortable;
 cap around 3–5 before human review becomes the bottleneck.
-{{/parallelAgents}}`;
+{{/parallelAgents}}{{#hasContracts}}
+
+## Cross-repo contracts
+
+Before changing any API or shared shape across repos, read \`openspec/project.md\`
+and propose the change there (\`/opsx:propose\`).
+{{/hasContracts}}`;
 
 export const ROOT_README = `# {{workspaceName}}
 

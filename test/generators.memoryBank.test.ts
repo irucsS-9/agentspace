@@ -59,3 +59,17 @@ test("crossAppContracts stub never fabricates a Last verified date", () => {
   )!.contents;
   expect(stub).not.toMatch(/_Last verified:/);
 });
+
+test("crossAppContracts cites openspec specs when hasContracts", () => {
+  const stub = generateMemoryBank(ctx({ hasContracts: true })).find(
+    (f) => f.path === "memory-bank/00-core/crossAppContracts.md",
+  )!.contents;
+  expect(stub).toContain("openspec/specs/");
+});
+
+test("crossAppContracts has no openspec citation when hasContracts false", () => {
+  const stub = generateMemoryBank(ctx({ hasContracts: false })).find(
+    (f) => f.path === "memory-bank/00-core/crossAppContracts.md",
+  )!.contents;
+  expect(stub).not.toContain("openspec/specs/");
+});
