@@ -34,6 +34,8 @@ export interface WorkspaceConfig {
 export interface GeneratedFile {
   path: string;
   contents: string;
+  /** Optional POSIX file mode (e.g. 0o755 for an executable script). */
+  mode?: number;
 }
 
 export interface ManifestContext {

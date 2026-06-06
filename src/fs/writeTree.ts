@@ -1,4 +1,5 @@
 import {
+  chmod,
   cp,
   mkdir,
   mkdtemp,
@@ -7,6 +8,7 @@ import {
   rm,
   writeFile,
 } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import type { GeneratedFile } from "../types";
 
@@ -48,20 +50,19 @@ export async function writeTree(
       const dest = join(temp, file.path);
       await mkdir(dirname(dest), { recursive: true });
       await writeFile(dest, file.contents);
+      if (file.mode !== undefined) await chmod(dest, file.mode);
     }
 
-    if (opts.force) {
-      // Merge into existing dir, preserving unrelated files.
-      // cp is not atomic; a partial write is possible here (acceptable for an opt-in --force override).
-      await cp(temp, targetDir, { recursive: true, force: true });
-      await rm(temp, { recursive: true, force: true });
-    } else if (await isNonEmptyDir(targetDir)) {
-      // Defensive: an empty target dir may have appeared (e.g. cwd); merge rather than throw.
-      // Empty dir may exist (e.g. cwd). Merge then drop temp.
+    if (existsSync(targetDir)) {
+      // Target already exists (empty, or non-empty under --force). Copy files
+      // INTO it rather than replacing the directory: replacing the directory's
+      // inode (rm + rename) would orphan any shell whose cwd is the target —
+      // the common `init`-into-the-current-directory case. cp preserves file
+      // modes and is not atomic (acceptable; the temp write already succeeded).
       await cp(temp, targetDir, { recursive: true, force: true });
       await rm(temp, { recursive: true, force: true });
     } else {
-      await rm(targetDir, { recursive: true, force: true }).catch(() => {});
+      // Brand-new directory: atomic same-filesystem rename into place.
       await rename(temp, targetDir);
     }
   } catch (err) {

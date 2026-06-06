@@ -25,7 +25,7 @@ export function generateManifest(ctx: ManifestContext): GeneratedFile[] {
   };
   return [
     { path: "manifest.yaml", contents: render(MANIFEST_YAML, view) },
-    { path: "clone-repos.sh", contents: render(CLONE_REPOS_SH, view) },
+    { path: "clone-repos.sh", contents: render(CLONE_REPOS_SH, view), mode: 0o755 },
     { path: ".gitignore", contents: render(GITIGNORE, view) },
     { path: "CLAUDE.md", contents: render(ROOT_CLAUDE, view) },
     { path: "README.md", contents: render(ROOT_README, view) },

@@ -6,6 +6,17 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-06-06
+
+### Fixed
+- `init` into the **current directory** replaced the directory's inode (it did
+  `rm` + `rename`), which orphaned the user's shell — the generated files were
+  invisible until you `cd` out and back in. It now writes files *into* an
+  existing directory, preserving it.
+- `clone-repos.sh` was generated without the executable bit, so `./clone-repos.sh`
+  failed with "permission denied". Generated files can now carry a POSIX mode,
+  and `clone-repos.sh` is written `0o755`.
+
 ## [0.3.3] - 2026-06-06
 
 ### Fixed
@@ -56,7 +67,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `openspec` CLI is absent. agentspace scaffolds and delegates — the `/opsx:*`
   commands come from `openspec update`, not from agentspace.
 
-[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.3...HEAD
+[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.4...HEAD
+[0.3.4]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.4
 [0.3.3]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.3
 [0.3.2]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.2
 [0.3.1]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.1
