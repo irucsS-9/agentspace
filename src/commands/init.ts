@@ -6,6 +6,7 @@ import { generateContracts } from "../generators/contracts";
 import { claudeCodeAdapter } from "../adapters/claudeCode";
 import { writeTree } from "../fs/writeTree";
 import { runWizard } from "../wizard/run";
+import { isContractLinked } from "../shape";
 import type { GeneratedFile, WorkspaceConfig } from "../types";
 
 /** Pure: config → files, honoring pillar selection. */
@@ -50,7 +51,7 @@ export async function initCommand(opts: { force: boolean; today: string }): Prom
   await runInit(config, process.cwd(), opts);
   console.log(`\n✓ Created ${config.workspaceName} (${config.pillars.join(", ")}).`);
   console.log("  Next: ./clone-repos.sh");
-  if (config.pillars.includes("contracts")) {
+  if (config.pillars.includes("contracts") && isContractLinked(config)) {
     console.log(
       "  Contracts: run `openspec update` to install the /opsx:* commands (install the openspec CLI first if needed).",
     );
