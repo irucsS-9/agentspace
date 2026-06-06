@@ -1,6 +1,6 @@
 {
   "name": "agentspace",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Scaffold an agent-native multi-repo workspace — keep sibling repos coherent for AI coding agents",
   "type": "module",
   "bin": { "agentspace": "dist/cli.js" },

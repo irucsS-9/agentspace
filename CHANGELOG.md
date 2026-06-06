@@ -6,6 +6,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-06-06
+
 ### Added
 - `agentspace init` — interactive, topology-aware wizard that scaffolds a
   multi-repo workspace.
@@ -31,4 +33,5 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `openspec` CLI is absent. agentspace scaffolds and delegates — the `/opsx:*`
   commands come from `openspec update`, not from agentspace.
 
-[Unreleased]: https://github.com/irucsS-9/agentspace/commits/main
+[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.0
