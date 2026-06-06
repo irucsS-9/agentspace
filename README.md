@@ -89,6 +89,28 @@ npx @shawaze/agentspace init
 It refuses to write into a non-empty directory unless you pass `--force`, and
 `--dry-run` prints what it would write without touching disk.
 
+**Non-interactive** (CI / reproducible scaffolding): skip the wizard and pass a
+JSON config.
+
+```bash
+npx @shawaze/agentspace init --config workspace.json
+```
+
+```jsonc
+// workspace.json
+{
+  "workspaceName": "my-product",
+  "shape": "one-product",
+  "repos": [
+    { "name": "api", "remote": "https://github.com/me/api.git", "stack": "rails", "role": "backend" },
+    { "name": "web", "remote": "https://github.com/me/web.git", "stack": "nextjs", "role": "frontend" }
+  ],
+  "dependencyOrder": ["api", "web"],
+  "pillars": ["manifest", "wiki", "enforcement", "contracts"],
+  "enforcement": { "mode": "auto", "warmPages": 5, "warmSessions": 10 }
+}
+```
+
 ### `agentspace doctor`
 
 Mechanical health checks on a generated workspace — manifest validity,

@@ -6,6 +6,17 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.5] - 2026-06-06
+
+### Added
+- **`init --config <file>`** — non-interactive scaffolding from a JSON config
+  (skips the wizard). Useful for CI and reproducible workspaces.
+- **Packaged-binary smoke test** (`npm run smoke`, wired into CI): packs the
+  tarball, installs it, and drives the real binary through its bin **symlink**
+  (the `npx`/global path) — `--version`, `init --config`, and `doctor`. This
+  exercises the install + symlink + filesystem-side-effect path that unit tests
+  structurally cannot reach.
+
 ## [0.3.4] - 2026-06-06
 
 ### Fixed
@@ -67,7 +78,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `openspec` CLI is absent. agentspace scaffolds and delegates — the `/opsx:*`
   commands come from `openspec update`, not from agentspace.
 
-[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.4...HEAD
+[Unreleased]: https://github.com/irucsS-9/agentspace/compare/v0.3.5...HEAD
+[0.3.5]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.5
 [0.3.4]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.4
 [0.3.3]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.3
 [0.3.2]: https://github.com/irucsS-9/agentspace/releases/tag/v0.3.2

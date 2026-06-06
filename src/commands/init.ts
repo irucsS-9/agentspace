@@ -6,6 +6,7 @@ import { generateContracts } from "../generators/contracts";
 import { claudeCodeAdapter } from "../adapters/claudeCode";
 import { writeTree } from "../fs/writeTree";
 import { runWizard } from "../wizard/run";
+import { loadConfig } from "../config";
 import { isContractLinked } from "../shape";
 import type { GeneratedFile, WorkspaceConfig } from "../types";
 
@@ -45,10 +46,14 @@ export async function runInit(
   await writeTree(files, targetDir, { force: opts.force });
 }
 
-/** Interactive entry used by the CLI. */
-export async function initCommand(opts: { force: boolean; today: string }): Promise<void> {
-  const config = await runWizard();
-  await runInit(config, process.cwd(), opts);
+/** CLI entry: interactive wizard, or non-interactive when `configPath` is given. */
+export async function initCommand(opts: {
+  force: boolean;
+  today: string;
+  configPath?: string;
+}): Promise<void> {
+  const config = opts.configPath ? loadConfig(opts.configPath) : await runWizard();
+  await runInit(config, process.cwd(), { force: opts.force, today: opts.today });
   console.log(`\n✓ Created ${config.workspaceName} (${config.pillars.join(", ")}).`);
   console.log("  Next: ./clone-repos.sh");
   if (config.pillars.includes("contracts") && isContractLinked(config)) {
