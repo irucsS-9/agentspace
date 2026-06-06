@@ -1,5 +1,6 @@
 {
-  "name": "agentspace",
+  "name": "@shawaze/agentspace",
+  "publishConfig": { "access": "public" },
   "version": "0.3.0",
   "description": "Scaffold an agent-native multi-repo workspace — keep sibling repos coherent for AI coding agents",
   "type": "module",

@@ -2,14 +2,14 @@
 
 [![CI](https://github.com/irucsS-9/agentspace/actions/workflows/ci.yml/badge.svg)](https://github.com/irucsS-9/agentspace/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![npm](https://img.shields.io/npm/v/agentspace.svg)](https://www.npmjs.com/package/agentspace)
+[![npm](https://img.shields.io/npm/v/@shawaze/agentspace.svg)](https://www.npmjs.com/package/@shawaze/agentspace)
 
 **Scaffold an agent-native multi-repo workspace** — a coordination layer that sits
 above your sibling repositories and keeps them coherent for AI coding agents.
 
 ```bash
-npx agentspace init     # interactive wizard → scaffold the workspace
-npx agentspace doctor   # mechanical health checks on a workspace
+npx @shawaze/agentspace init     # interactive wizard → scaffold the workspace
+npx @shawaze/agentspace doctor   # mechanical health checks on a workspace
 ```
 
 > Status: **v0.3.** Workspace reconstruction, the memory-bank wiki, the
@@ -77,10 +77,10 @@ You never get a pile of cork-shaped scaffolding that doesn't fit your project.
 ## Quick start
 
 ```bash
-npx agentspace init
+npx @shawaze/agentspace init
 # answer: workspace name → shape → repos (name, remote, stack, role) → pillars
 ./clone-repos.sh         # pull any sub-repos that aren't on disk yet
-npx agentspace doctor    # check workspace health (size budgets, staleness, manifest)
+npx @shawaze/agentspace doctor    # check workspace health (size budgets, staleness, manifest)
 ```
 
 ## Roadmap
